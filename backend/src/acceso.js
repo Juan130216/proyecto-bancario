@@ -1,4 +1,4 @@
-module.exports = rol => (req, res, next) => {
+const acceso = rol => (req, res, next) => {
   const usuario = req.session.usuario;
   if (!usuario) {
     return res.status(401).json({ mensaje: 'Debe iniciar sesión', resultado: null });
@@ -8,3 +8,12 @@ module.exports = rol => (req, res, next) => {
   }
   next();
 };
+
+acceso.cajero = (req, res, next) => {
+  if (!req.session.cajero) {
+    return res.status(401).json({ mensaje: 'Debe ingresar al cajero con su cuenta y PIN', resultado: null });
+  }
+  next();
+};
+
+module.exports = acceso;

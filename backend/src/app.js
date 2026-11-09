@@ -6,6 +6,8 @@ const authRutas = require('./rutas/authRutas');
 const usuarioRutas = require('./rutas/usuarioRutas');
 const cuentaRutas = require('./rutas/cuentaRutas');
 const movimientoRutas = require('./rutas/movimientoRutas');
+const transferenciaRutas = require('./rutas/transferenciaRutas');
+const cajeroRutas = require('./rutas/cajeroRutas');
 const { conectarBaseDatos } = require('./baseDatos');
 
 const app = express();
@@ -21,6 +23,8 @@ app.use('/api/auth', authRutas);
 app.use('/api/clientes', usuarioRutas);
 app.use('/api/cuentas', cuentaRutas);
 app.use('/api/movimientos', movimientoRutas);
+app.use('/api/transferencias', transferenciaRutas);
+app.use('/api/cajero', cajeroRutas);
 app.use('/api', (_req, res) => res.status(404).json({ mensaje: 'Ruta de API no encontrada', resultado: null }));
 app.use(express.static(path.join(__dirname, '../../frontend')));
 

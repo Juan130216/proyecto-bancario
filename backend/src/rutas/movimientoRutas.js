@@ -6,4 +6,6 @@ const acceso = require('../acceso');
 enrutador.post('/consignar', acceso('ADMIN'), movimientoControlador.consignar);
 enrutador.get('/obtener', acceso('ADMIN'), movimientoControlador.obtenerMovimientos);
 
+enrutador.get('/propios', acceso('CLIENTE'), movimientoControlador.obtenerMisMovimientos);
+
 module.exports = enrutador;
