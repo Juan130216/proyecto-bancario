@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Banca virtual | Simulador Bancario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] } } } }</script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="css.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900">
+
+  <main id="vistaLogin" class="flex min-h-screen items-center justify-center px-6 py-12">
+    <div class="w-full max-w-sm">
+      <a href="index.html" class="mb-6 inline-flex items-center gap-2 text-sm text-slate-500 transition-all duration-200 hover:text-slate-900"><i data-lucide="arrow-left" class="h-4 w-4"></i>Volver al inicio</a>
+      <div class="tarjeta p-8">
+        <span class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-[#2563EB] text-white"><i data-lucide="smartphone" class="h-5 w-5"></i></span>
+        <h1 class="text-2xl font-extrabold tracking-tight">Banca virtual</h1>
+        <p class="mt-1 text-sm text-slate-500">Ingresa con tu correo y tu contraseña.</p>
+        <form id="formLogin" class="mt-6 space-y-4">
+          <label class="block text-sm font-medium">Correo<input class="campo mt-1" name="correo" type="email" required autocomplete="username"></label>
+          <label class="block text-sm font-medium">Contraseña<input class="campo mt-1" name="password" type="password" required autocomplete="current-password"></label>
+          <button class="boton boton-primario w-full">Ingresar</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div id="vistaPanel" class="hidden">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        <div class="flex items-center gap-3">
+          <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2563EB] text-white"><i data-lucide="landmark" class="h-5 w-5"></i></span>
+          <div>
+            <p class="text-xs text-slate-500">Banca virtual</p>
+            <p id="saludo" class="font-bold leading-tight"></p>
+          </div>
+        </div>
+        <button id="btnSalir" class="boton boton-suave"><i data-lucide="log-out" class="h-4 w-4"></i>Cerrar sesión</button>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-6 py-8">
+      <nav class="mb-6 flex gap-2 overflow-x-auto" role="tablist">
+        <button class="pestana" data-vista="resumen" aria-selected="true">Resumen</button>
+        <button class="pestana" data-vista="movimientos" aria-selected="false">Movimientos</button>
+        <button class="pestana" data-vista="perfil" aria-selected="false">Mi perfil</button>
+      </nav>
+
+      <section id="vista-resumen" class="vista grid gap-6 lg:grid-cols-5">
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#2563EB] via-[#1D4ED8] to-[#0F172A] p-6 text-white shadow-[0_10px_30px_-5px_rgba(0,0,0,0.05)] lg:col-span-3">
+          <div class="absolute -right-12 -top-12 h-52 w-52 rounded-full bg-sky-300/30 blur-3xl"></div>
+          <div class="absolute -bottom-16 -left-10 h-48 w-48 rounded-full bg-indigo-400/30 blur-3xl"></div>
+          <div class="relative rounded-xl border border-white/25 bg-white/10 p-6 backdrop-blur-md">
+            <div class="flex items-center justify-between">
+              <p class="text-sm text-blue-100">Saldo disponible</p>
+              <span id="tipoCuenta" class="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold"></span>
+            </div>
+            <p id="saldo" class="num mt-2 text-3xl font-bold sm:text-4xl"></p>
+            <div class="mt-8 flex items-center justify-between gap-4">
+              <p id="numeroCuenta" class="num text-lg tracking-widest"></p>
+              <button id="btnVerNumero" class="rounded-xl px-3 py-2 text-sm font-semibold transition-all duration-200 hover:bg-white/15 active:scale-95">Mostrar número</button>
+            </div>
+          </div>
+        </div>
+
+        <form id="formTransferir" class="tarjeta space-y-4 p-6 lg:col-span-2">
+          <div>
+            <h2 class="text-lg font-bold">Transferir dinero</h2>
+            <p class="text-sm text-slate-500">A otra cuenta del banco.</p>
+          </div>
+          <label class="block text-sm font-medium">Cuenta destino<input class="campo num mt-1" name="numero_cuenta_destino" inputmode="numeric" required placeholder="Número de cuenta"></label>
+          <label class="block text-sm font-medium">Valor<input class="campo num mt-1" name="valor" type="number" min="0.01" step="0.01" required placeholder="0"></label>
+          <button class="boton boton-primario w-full"><i data-lucide="send" class="h-4 w-4"></i>Transferir</button>
+        </form>
+      </section>
+
+      <section id="vista-movimientos" class="vista hidden">
+        <div class="tarjeta overflow-hidden">
+          <div class="p-6 pb-4">
+            <h2 class="text-lg font-bold">Movimientos</h2>
+            <p class="text-sm text-slate-500">Del más reciente al más antiguo.</p>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="border-y border-slate-100 bg-slate-50 text-slate-500">
+                <tr>
+                  <th class="px-6 py-3 font-semibold">Tipo</th>
+                  <th class="px-6 py-3 font-semibold">Fecha</th>
+                  <th class="px-6 py-3 font-semibold">Descripción</th>
+                  <th class="px-6 py-3 text-right font-semibold">Valor</th>
+                  <th class="px-6 py-3 text-right font-semibold">Saldo resultante</th>
+                </tr>
+              </thead>
+              <tbody id="listaMovimientos" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+          <p id="sinMovimientos" class="hidden px-6 py-10 text-center text-slate-500">Aún no tienes movimientos.</p>
+        </div>
+      </section>
+
+      <section id="vista-perfil" class="vista hidden grid gap-6 md:grid-cols-2">
+        <form id="formPerfil" class="tarjeta space-y-4 p-6">
+          <h2 class="text-lg font-bold">Mis datos</h2>
+          <dl class="space-y-3 text-sm">
+            <div><dt class="text-slate-500">Nombre</dt><dd id="perfilNombre" class="font-semibold"></dd></div>
+            <div><dt class="text-slate-500">Correo</dt><dd id="perfilCorreo" class="font-semibold"></dd></div>
+            <div><dt class="mb-1 text-slate-500">Estado</dt><dd id="perfilEstado"></dd></div>
+          </dl>
+          <label class="block text-sm font-medium">Teléfono<input class="campo mt-1" name="telefono" maxlength="20"></label>
+          <label class="block text-sm font-medium">Dirección<input class="campo mt-1" name="direccion" maxlength="150"></label>
+          <button class="boton boton-primario w-full">Guardar cambios</button>
+        </form>
+
+        <form id="formPassword" class="tarjeta space-y-4 self-start p-6">
+          <div>
+            <h2 class="text-lg font-bold">Cambiar contraseña</h2>
+            <p class="text-sm text-slate-500">La nueva debe tener mínimo 6 caracteres.</p>
+          </div>
+          <label class="block text-sm font-medium">Contraseña actual<input class="campo mt-1" name="password_actual" type="password" required autocomplete="current-password"></label>
+          <label class="block text-sm font-medium">Contraseña nueva<input class="campo mt-1" name="password_nueva" type="password" required minlength="6" autocomplete="new-password"></label>
+          <button class="boton boton-primario w-full">Cambiar contraseña</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="funciones.js"></script>
+  <script src="cliente.js"></script>
+</body>
+</html>

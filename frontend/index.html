@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simulador Bancario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] } } } }</script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="css.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-[#0F172A] text-slate-100">
+  <main class="mx-auto flex min-h-screen max-w-xl flex-col justify-center px-6 py-12">
+    <div class="mb-10 flex items-center gap-3">
+      <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#2563EB]"><i data-lucide="landmark" class="h-5 w-5 text-white"></i></span>
+      <span class="text-lg font-bold tracking-tight">Bienvenido</span>
+    </div>
+
+    <h1 class="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Elige cómo quieres entrar</h1>
+    <p class="mt-3 text-slate-400">Los tres módulos usan la misma base de datos: lo que hagas en uno se ve en los demás.</p>
+
+    <div class="mt-10 space-y-3">
+      <a href="cliente.html" class="group flex items-center gap-4 rounded-2xl bg-[#2563EB] p-5 shadow-[0_10px_30px_-5px_rgba(37,99,235,0.45)] transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:bg-blue-500 active:translate-y-0 active:scale-[0.99]">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15"><i data-lucide="smartphone" class="h-6 w-6"></i></span>
+        <span class="flex-1">
+          <span class="block text-lg font-bold">Banca virtual</span>
+          <span class="block text-sm text-blue-100">Consulta tu saldo, mira tus movimientos y transfiere dinero.</span>
+        </span>
+        <i data-lucide="chevron-right" class="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"></i>
+      </a>
+
+      <a href="cajero.html" class="group flex items-center gap-4 rounded-2xl border border-slate-700 bg-slate-800/60 p-5 transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:border-slate-500 hover:bg-slate-800 active:translate-y-0 active:scale-[0.99]">
+        <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-700"><i data-lucide="banknote" class="h-6 w-6"></i></span>
+        <span class="flex-1">
+          <span class="block text-lg font-bold">Cajero automático</span>
+          <span class="block text-sm text-slate-400">Retira dinero con tu número de cuenta y tu PIN.</span>
+        </span>
+        <i data-lucide="chevron-right" class="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"></i>
+      </a>
+
+      <a href="admin.html" class="group flex items-center justify-between rounded-xl px-5 py-3 text-sm text-slate-400 transition-all duration-200 ease-in-out hover:bg-slate-800/60 hover:text-slate-200 active:scale-[0.99]">
+        <span class="flex items-center gap-3"><i data-lucide="shield-check" class="h-4 w-4"></i>Acceso del personal del banco</span>
+        <i data-lucide="chevron-right" class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"></i>
+      </a>
+    </div>
+  </main>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.num { font-variant-numeric: tabular-nums; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #60A5FA; outline-offset: 2px; }
+
+.tarjeta { background: #fff; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05); }
+
+.campo { width: 100%; border: 1px solid #CBD5E1; border-radius: 12px; padding: 0.7rem 1rem; background: #fff; transition: all 0.2s ease-in-out; }
+.campo:hover { border-color: #94A3B8; }
+.campo:focus { outline: none; border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+
+.boton { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 12px; padding: 0.7rem 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease-in-out; }
+.boton:active { transform: scale(0.98); }
+.boton-primario { background: #2563EB; color: #fff; }
+.boton-primario:hover { background: #1D4ED8; }
+.boton-suave { background: #F1F5F9; color: #0F172A; }
+.boton-suave:hover { background: #E2E8F0; }
+
+.pestana { border-radius: 12px; padding: 0.5rem 1rem; font-size: 0.875rem; font-weight: 600; color: #475569; white-space: nowrap; transition: all 0.2s ease-in-out; }
+.pestana:hover { background: #E2E8F0; }
+.pestana[aria-selected="true"] { background: #0F172A; color: #fff; }
+
+.fila { transition: all 0.2s ease-in-out; }
+.fila:hover { background: #F8FAFC; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
