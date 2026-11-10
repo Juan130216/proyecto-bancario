@@ -14,11 +14,9 @@ El sistema tiene tres módulos que trabajan sobre la **misma base de datos MySQL
 
 Ejemplo de la integración: si un cliente con saldo de $1.000.000 retira $200.000 en el cajero, la banca virtual le muestra el saldo de $800.000 y el movimiento *Retiro en cajero* de -$200.000, y el administrador ve ese mismo saldo en la cuenta.
 
-## Integrantes
+## Integrante
 
 - Juan David Ibarra
-- _Nombre del integrante 2_
-- _Nombre del integrante 3_
 
 ## Tecnologías utilizadas
 
@@ -154,10 +152,8 @@ npm start       # modo normal
 
 Debe aparecer en la consola:
 
-```
 Conectado a la base de datos.
 Banco: http://localhost:3000
-```
 
 Luego abrir `http://localhost:3000` en el navegador. La página de inicio lleva a los tres módulos.
 
