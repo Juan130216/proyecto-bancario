@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Panel administrativo | Simulador Bancario</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] } } } }</script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <link href="css.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-[#F8FAFC] text-slate-900">
+
+  <main id="vistaLogin" class="flex min-h-screen items-center justify-center px-6 py-12">
+    <div class="w-full max-w-sm">
+      <a href="index.html" class="mb-6 inline-flex items-center gap-2 text-sm text-slate-500 transition-all duration-200 hover:text-slate-900"><i data-lucide="arrow-left" class="h-4 w-4"></i>Volver al inicio</a>
+      <div class="tarjeta p-8">
+        <span class="mb-5 flex h-11 w-11 items-center justify-center rounded-xl bg-[#2563EB] text-white"><i data-lucide="shield-check" class="h-5 w-5"></i></span>
+        <h1 class="text-2xl font-extrabold tracking-tight">Panel administrativo</h1>
+        <p class="mt-1 text-sm text-slate-500">Acceso del personal del banco.</p>
+        <form id="formLogin" class="mt-6 space-y-4">
+          <label class="block text-sm font-medium">Correo<input class="campo mt-1" name="correo" type="email" required autocomplete="username"></label>
+          <label class="block text-sm font-medium">Contraseña<input class="campo mt-1" name="password" type="password" required autocomplete="current-password"></label>
+          <button class="boton boton-primario w-full">Ingresar</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div id="vistaPanel" class="hidden">
+    <div class="min-h-screen lg:flex">
+      <aside class="bg-[#0F172A] text-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-64 lg:shrink-0 lg:flex-col">
+        <div class="flex items-center gap-3 px-5 py-4 lg:py-6">
+          <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2563EB]"><i data-lucide="landmark" class="h-5 w-5"></i></span>
+          <div>
+            <p class="font-bold leading-tight">Simulador Bancario</p>
+            <p id="saludo" class="text-xs text-slate-400">Panel administrativo</p>
+          </div>
+        </div>
+        <nav class="flex gap-1 overflow-x-auto px-3 pb-3 lg:flex-1 lg:flex-col lg:pb-4" role="tablist">
+          <button class="item-menu" data-vista="resumen" aria-selected="true"><i data-lucide="layout-dashboard" class="h-4 w-4"></i>Resumen</button>
+          <button class="item-menu" data-vista="clientes" aria-selected="false"><i data-lucide="users" class="h-4 w-4"></i>Clientes</button>
+          <button class="item-menu" data-vista="cuentas" aria-selected="false"><i data-lucide="wallet" class="h-4 w-4"></i>Cuentas</button>
+          <button class="item-menu" data-vista="movimientos" aria-selected="false"><i data-lucide="arrow-left-right" class="h-4 w-4"></i>Movimientos</button>
+          <button id="btnSalir" class="item-menu lg:mt-auto"><i data-lucide="log-out" class="h-4 w-4"></i>Cerrar sesión</button>
+        </nav>
+      </aside>
+
+      <main class="min-w-0 flex-1 p-6 lg:p-10">
+
+        <section id="vista-resumen" class="vista">
+          <h1 class="text-2xl font-extrabold tracking-tight">Resumen del banco</h1>
+          <p class="mt-1 text-sm text-slate-500">Estado general de los clientes y de los saldos.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div class="tarjeta p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-500">Clientes</p>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-[#2563EB]"><i data-lucide="users" class="h-4 w-4"></i></span>
+              </div>
+              <p id="totalClientes" class="num mt-3 text-3xl font-bold">0</p>
+            </div>
+            <div class="tarjeta p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-500">Clientes activos</p>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#DCFCE7] text-[#15803D]"><i data-lucide="user-check" class="h-4 w-4"></i></span>
+              </div>
+              <p id="clientesActivos" class="num mt-3 text-3xl font-bold">0</p>
+            </div>
+            <div class="tarjeta p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-500">Clientes bloqueados</p>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FEE2E2] text-[#B91C1C]"><i data-lucide="user-x" class="h-4 w-4"></i></span>
+              </div>
+              <p id="clientesBloqueados" class="num mt-3 text-3xl font-bold">0</p>
+            </div>
+            <div class="rounded-2xl bg-[#0F172A] p-5 text-white shadow-[0_10px_30px_-5px_rgba(0,0,0,0.05)]">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-slate-300">Saldo total en cuentas</p>
+                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10"><i data-lucide="wallet" class="h-4 w-4"></i></span>
+              </div>
+              <p id="saldoTotal" class="num mt-3 text-2xl font-bold xl:text-3xl">$ 0</p>
+            </div>
+          </div>
+          <div class="tarjeta mt-6 p-6">
+            <h2 class="text-lg font-bold">Clientes por estado</h2>
+            <div class="mx-auto mt-4 h-64 max-w-xs"><canvas id="graficoEstados"></canvas></div>
+          </div>
+        </section>
+
+        <section id="vista-clientes" class="vista hidden">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 class="text-2xl font-extrabold tracking-tight">Clientes</h1>
+              <p class="mt-1 text-sm text-slate-500">Crea clientes, edítalos y controla su estado.</p>
+            </div>
+            <button id="btnNuevoCliente" class="boton boton-primario"><i data-lucide="plus" class="h-4 w-4"></i>Nuevo cliente</button>
+          </div>
+          <div class="relative mt-6">
+            <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+            <input id="buscar" class="campo pl-11" placeholder="Buscar por nombre o correo">
+          </div>
+          <div class="tarjeta mt-4 overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead class="border-b border-slate-100 bg-slate-50 text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3 font-semibold">Cliente</th>
+                    <th class="px-6 py-3 font-semibold">Cuenta</th>
+                    <th class="px-6 py-3 text-right font-semibold">Saldo</th>
+                    <th class="px-6 py-3 font-semibold">Estado</th>
+                    <th class="px-6 py-3 text-right font-semibold">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="listaClientes" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+            <p id="sinClientes" class="hidden px-6 py-10 text-center text-slate-500">No se encontraron clientes.</p>
+          </div>
+        </section>
+
+        <section id="vista-cuentas" class="vista hidden">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 class="text-2xl font-extrabold tracking-tight">Cuentas</h1>
+              <p class="mt-1 text-sm text-slate-500">Todas las cuentas del banco con su saldo.</p>
+            </div>
+            <button id="btnConsignar" class="boton boton-primario"><i data-lucide="banknote" class="h-4 w-4"></i>Nueva consignación</button>
+          </div>
+          <div class="tarjeta mt-6 overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead class="border-b border-slate-100 bg-slate-50 text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3 font-semibold">Cuenta</th>
+                    <th class="px-6 py-3 font-semibold">Titular</th>
+                    <th class="px-6 py-3 font-semibold">Tipo</th>
+                    <th class="px-6 py-3 text-right font-semibold">Saldo</th>
+                    <th class="px-6 py-3 font-semibold">Estado</th>
+                    <th class="px-6 py-3 text-right font-semibold">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="listaCuentas" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="vista-movimientos" class="vista hidden">
+          <h1 class="text-2xl font-extrabold tracking-tight">Movimientos</h1>
+          <p class="mt-1 text-sm text-slate-500">Historial general de todas las cuentas, del más reciente al más antiguo.</p>
+          <div class="tarjeta mt-6 overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-sm">
+                <thead class="border-b border-slate-100 bg-slate-50 text-slate-500">
+                  <tr>
+                    <th class="px-6 py-3 font-semibold">Tipo</th>
+                    <th class="px-6 py-3 font-semibold">Fecha</th>
+                    <th class="px-6 py-3 font-semibold">Cuenta</th>
+                    <th class="px-6 py-3 font-semibold">Cliente</th>
+                    <th class="px-6 py-3 font-semibold">Descripción</th>
+                    <th class="px-6 py-3 text-right font-semibold">Valor</th>
+                    <th class="px-6 py-3 text-right font-semibold">Saldo resultante</th>
+                  </tr>
+                </thead>
+                <tbody id="listaMovimientos" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+            <p id="sinMovimientos" class="hidden px-6 py-10 text-center text-slate-500">Aún no hay movimientos.</p>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <dialog id="dlgCliente">
+    <form id="formCliente" class="space-y-4 p-6">
+      <div class="flex items-start justify-between">
+        <h2 id="tituloCliente" class="text-lg font-bold"></h2>
+        <button type="button" class="icono-accion cerrar-dialogo -mr-2 -mt-2" aria-label="Cerrar"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+      <label class="block text-sm font-medium">Nombre<input class="campo mt-1" name="nombre" required minlength="3" maxlength="100"></label>
+      <label class="block text-sm font-medium">Correo<input class="campo mt-1" name="correo" type="email" required maxlength="120"></label>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="block text-sm font-medium">Teléfono<input class="campo mt-1" name="telefono" maxlength="20"></label>
+        <label class="block text-sm font-medium">Dirección<input class="campo mt-1" name="direccion" maxlength="150"></label>
+      </div>
+      <fieldset id="camposNuevo" class="space-y-4">
+        <label class="block text-sm font-medium">Contraseña<input class="campo mt-1" name="password" type="password" required minlength="6" autocomplete="new-password"></label>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <label class="block text-sm font-medium">Tipo de cuenta
+            <select class="campo mt-1" name="tipo_cuenta"><option value="AHORROS">Ahorros</option><option value="CORRIENTE">Corriente</option></select>
+          </label>
+          <label class="block text-sm font-medium">PIN del cajero<input class="campo num mt-1" name="pin" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="4 números" required></label>
+        </div>
+      </fieldset>
+      <button class="boton boton-primario w-full">Guardar</button>
+    </form>
+  </dialog>
+
+  <dialog id="dlgConsignar">
+    <form id="formConsignar" class="space-y-4 p-6">
+      <div class="flex items-start justify-between">
+        <h2 class="text-lg font-bold">Nueva consignación</h2>
+        <button type="button" class="icono-accion cerrar-dialogo -mr-2 -mt-2" aria-label="Cerrar"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+      <label class="block text-sm font-medium">Número de cuenta<input class="campo num mt-1" name="numero_cuenta" inputmode="numeric" required maxlength="20"></label>
+      <label class="block text-sm font-medium">Valor<input class="campo num mt-1" name="valor" type="number" min="0.01" step="0.01" required placeholder="0"></label>
+      <button class="boton boton-primario w-full">Consignar</button>
+    </form>
+  </dialog>
+
+  <dialog id="dlgDetalle">
+    <div class="p-6">
+      <div class="flex items-start justify-between">
+        <h2 class="text-lg font-bold">Detalle del cliente</h2>
+        <button type="button" class="icono-accion cerrar-dialogo -mr-2 -mt-2" aria-label="Cerrar"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+      <div id="detalleCliente" class="mt-4"></div>
+    </div>
+  </dialog>
+
+  <script src="funciones.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

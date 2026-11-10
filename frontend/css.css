@@ -19,7 +19,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .pestana:hover { background: #E2E8F0; }
 .pestana[aria-selected="true"] { background: #0F172A; color: #fff; }
 
+.item-menu { display: flex; align-items: center; gap: 0.75rem; border-radius: 12px; padding: 0.65rem 1rem; font-size: 0.875rem; font-weight: 600; color: #CBD5E1; white-space: nowrap; cursor: pointer; transition: all 0.2s ease-in-out; }
+.item-menu:hover { background: #1E293B; color: #fff; }
+.item-menu:active { transform: scale(0.98); }
+.item-menu[aria-selected="true"] { background: #2563EB; color: #fff; }
+
+.icono-accion { display: inline-flex; align-items: center; justify-content: center; height: 2.25rem; width: 2.25rem; border-radius: 12px; color: #475569; cursor: pointer; transition: all 0.2s ease-in-out; }
+.icono-accion:hover { background: #F1F5F9; color: #0F172A; }
+.icono-accion:active { transform: scale(0.94); }
+
 .fila { transition: all 0.2s ease-in-out; }
 .fila:hover { background: #F8FAFC; }
+
+dialog { border: 0; padding: 0; border-radius: 16px; width: min(92vw, 30rem); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+dialog[open] { animation: aparecer 0.2s ease-out; }
+dialog::backdrop { background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); }
+@keyframes aparecer { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
+
+.tarjeta-oscura { background: #1E293B; border: 1px solid #334155; border-radius: 16px; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.25); }
+
+.campo-oscuro { width: 100%; border: 1px solid #475569; border-radius: 12px; padding: 0.7rem 1rem; background: #0F172A; color: #fff; transition: all 0.2s ease-in-out; }
+.campo-oscuro::placeholder { color: #64748B; }
+.campo-oscuro:hover { border-color: #64748B; }
+.campo-oscuro:focus { outline: none; border-color: #60A5FA; box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2); }
+
+.boton-oscuro { background: #334155; color: #fff; }
+.boton-oscuro:hover { background: #475569; }
+
+.opcion-cajero { display: flex; align-items: center; gap: 0.75rem; width: 100%; border-radius: 12px; padding: 0.9rem 1rem; background: #1E293B; color: #CBD5E1; font-weight: 600; text-align: left; cursor: pointer; transition: all 0.2s ease-in-out; }
+.opcion-cajero:hover { background: #273449; color: #fff; }
+.opcion-cajero:active { transform: scale(0.98); }
+.opcion-cajero[aria-selected="true"] { background: #2563EB; color: #fff; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

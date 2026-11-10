@@ -80,7 +80,7 @@ $('#formLogin').addEventListener('submit', async evento => {
     evento.target.reset();
     await cargarPanel();
   } catch (error) {
-    manejarError(error);
+    alerta(error.message, 'error');
   }
 });
 
