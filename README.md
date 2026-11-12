@@ -16,6 +16,8 @@ Ejemplo de la integración: si un cliente con saldo de $1.000.000 retira $200.00
 
 ## Integrante
 
+- Karen Lizeth Cristiam Cuervo
+- Juan Camilo Vasquez Ceballos
 - Juan David Ibarra
 
 ## Tecnologías utilizadas
