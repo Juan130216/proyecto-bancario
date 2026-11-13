@@ -8,3 +8,6 @@ enrutador.post('/logout', authControlador.cerrarSesion);
 enrutador.get('/sesion', acceso(), authControlador.obtenerSesion);
 
 module.exports = enrutador;
+
+
+
